@@ -8,6 +8,7 @@ public class MyFieldTemplate {
     private String type;
     private String name;
     private String value;
+    private String operator;
 
     public String getType() {
         return type;
@@ -31,5 +32,13 @@ public class MyFieldTemplate {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
     }
 }

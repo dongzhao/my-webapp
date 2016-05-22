@@ -11,12 +11,12 @@ import javax.persistence.Table;
 import java.math.BigDecimal;
 
 
-@Entity
+/*@Entity
 @Table(name = "my_product")
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @MyRepository
 @MyRepositoryTest
-@MyRestController
+@MyRestController*/
 public class Product extends AbstractDomain {
     @Column
     @MySearch

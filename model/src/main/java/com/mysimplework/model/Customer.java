@@ -9,12 +9,12 @@ import com.mysimplework.model.generic.AbstractDomain;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+/*@Entity
 @Table(name = "my_customer")
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @MyRepository
 @MyRepositoryTest
-@MyRestController
+@MyRestController*/
 public class Customer extends AbstractDomain {
 
     @Column(name="FIRST_NAME")

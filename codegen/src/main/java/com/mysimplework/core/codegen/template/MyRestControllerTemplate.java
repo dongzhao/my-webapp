@@ -18,6 +18,8 @@ public class MyRestControllerTemplate {
 
     private List<MySearchTemplate> mySearchTemplates;
 
+    private List<MyFieldTemplate> myFieldTemplates;
+
     public String getModelPackageName() {
         return modelPackageName;
     }
@@ -96,5 +98,13 @@ public class MyRestControllerTemplate {
 
     public void setMySearchTemplates(List<MySearchTemplate> mySearchTemplates) {
         this.mySearchTemplates = mySearchTemplates;
+    }
+
+    public List<MyFieldTemplate> getMyFieldTemplates() {
+        return myFieldTemplates;
+    }
+
+    public void setMyFieldTemplates(List<MyFieldTemplate> myFieldTemplates) {
+        this.myFieldTemplates = myFieldTemplates;
     }
 }

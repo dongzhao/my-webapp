@@ -12,12 +12,12 @@ import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
 
-@Entity
+/*@Entity
 @Table(name = "my_order")
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @MyRepository
 @MyRepositoryTest
-@MyRestController
+@MyRestController*/
 public class Order extends AbstractDomain {
     @Column(name="ORDER_DATE")
     @MySearch

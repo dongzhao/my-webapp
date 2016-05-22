@@ -42,7 +42,15 @@ public class ${controllerClassName}{
     @RequestMapping(method = RequestMethod.PUT)
     @Transactional
     public ResponseEntity<${modelClassName}> update(@RequestBody @Valid final ${modelClassName} ${modelClassName?uncap_first}){
-        ${modelClassName} result = ${repositoryClassName?uncap_first}.save(${modelClassName?uncap_first});
+        ${modelClassName} result = ${repositoryClassName?uncap_first}.findOne(${modelClassName?uncap_first}.getId());
+<#if mySearchTemplates??>
+    <#list myFieldTemplates as fieldTemplate>
+        if(!result.get${fieldTemplate.name?cap_first}().equals(${modelClassName?uncap_first}.get${fieldTemplate.name?cap_first}())){
+            result.set${fieldTemplate.name?cap_first}(${modelClassName?uncap_first}.get${fieldTemplate.name?cap_first}());
+        }
+    </#list>
+</#if>
+        ${modelClassName} result = ${repositoryClassName?uncap_first}.save(result);
         return new ResponseEntity<${modelClassName}>(result, HttpStatus.OK);
     }
 
