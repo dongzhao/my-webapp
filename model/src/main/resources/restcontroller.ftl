@@ -44,14 +44,21 @@ public class ${controllerClassName}{
     public ResponseEntity<${modelClassName}> update(@RequestBody @Valid final ${modelClassName} ${modelClassName?uncap_first}){
         ${modelClassName} result = ${repositoryClassName?uncap_first}.findOne(${modelClassName?uncap_first}.getId());
 <#if mySearchTemplates??>
-    <#list myFieldTemplates as fieldTemplate>
-        if(!result.get${fieldTemplate.name?cap_first}().equals(${modelClassName?uncap_first}.get${fieldTemplate.name?cap_first}())){
-            result.set${fieldTemplate.name?cap_first}(${modelClassName?uncap_first}.get${fieldTemplate.name?cap_first}());
+    <#list mySearchTemplates as mySearchTemplate>
+        <#if mySearchTemplate.referenceName??>
+        <#elseif mySearchTemplate.type=="int">
+        if(result.get${mySearchTemplate.name?cap_first}() != ${modelClassName?uncap_first}.get${mySearchTemplate.name?cap_first}()){
+            result.set${mySearchTemplate.name?cap_first}(${modelClassName?uncap_first}.get${mySearchTemplate.name?cap_first}());
         }
+        <#else>
+        if(!result.get${mySearchTemplate.name?cap_first}().equals(${modelClassName?uncap_first}.get${mySearchTemplate.name?cap_first}())){
+            result.set${mySearchTemplate.name?cap_first}(${modelClassName?uncap_first}.get${mySearchTemplate.name?cap_first}());
+        }
+        </#if>
     </#list>
 </#if>
-        ${modelClassName} result = ${repositoryClassName?uncap_first}.save(result);
-        return new ResponseEntity<${modelClassName}>(result, HttpStatus.OK);
+        ${modelClassName} updResult = ${repositoryClassName?uncap_first}.save(result);
+        return new ResponseEntity<${modelClassName}>(updResult, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -85,32 +92,32 @@ public class ${controllerClassName}{
     }
 
 <#if mySearchTemplates??>
-    <#list mySearchTemplates as method>
-        <#if method.referenceName??>
+    <#list mySearchTemplates as mySearchTemplate>
+        <#if mySearchTemplate.referenceName??>
 
-    @RequestMapping(value = "/${method.referenceName}/${method.name}/{${method.name}}", method = RequestMethod.GET)
+    @RequestMapping(value = "/${mySearchTemplate.referenceName}/${mySearchTemplate.name}/{${mySearchTemplate.name}}", method = RequestMethod.GET)
     @Transactional
     @ResponseBody
-    public ResponseEntity<List<${modelClassName}>> searchBy${method.referenceName?cap_first}${method.name?cap_first}(@PathVariable("${method.name}") ${method.type} ${method.name}) {
-        List<${modelClassName}> results = ${repositoryClassName?uncap_first}.findBy${method.referenceName?cap_first}${method.name?cap_first}(${method.name});
+    public ResponseEntity<List<${modelClassName}>> searchBy${mySearchTemplate.referenceName?cap_first}${mySearchTemplate.name?cap_first}(@PathVariable("${mySearchTemplate.name}") ${mySearchTemplate.type} ${mySearchTemplate.name}) {
+        List<${modelClassName}> results = ${repositoryClassName?uncap_first}.findBy${mySearchTemplate.referenceName?cap_first}${mySearchTemplate.name?cap_first}(${mySearchTemplate.name});
         return new ResponseEntity<List<${modelClassName}>>(results, HttpStatus.OK);
     }
         <#else>
 
-    @RequestMapping(value = "/${method.name}/{${method.name}}", method = RequestMethod.GET)
+    @RequestMapping(value = "/${mySearchTemplate.name}/{${mySearchTemplate.name}}", method = RequestMethod.GET)
     @Transactional
     @ResponseBody
-    public ResponseEntity<List<${modelClassName}>> searchBy${method.name}(@PathVariable("${method.name}") ${method.type} ${method.name}) {
-        List<${modelClassName}> results = ${repositoryClassName?uncap_first}.findBy${method.name}(${method.name});
+    public ResponseEntity<List<${modelClassName}>> searchBy${mySearchTemplate.name}(@PathVariable("${mySearchTemplate.name}") ${mySearchTemplate.type} ${mySearchTemplate.name}) {
+        List<${modelClassName}> results = ${repositoryClassName?uncap_first}.findBy${mySearchTemplate.name?cap_first}(${mySearchTemplate.name});
         return new ResponseEntity<List<${modelClassName}>>(results, HttpStatus.OK);
     }
-            <#if method.pageable=true>
+            <#if mySearchTemplate.pageable=true>
 
-    @RequestMapping(value = "/${method.name}/{${method.name}}/page", method = RequestMethod.GET)
+    @RequestMapping(value = "/${mySearchTemplate.name}/{${mySearchTemplate.name}}/page", method = RequestMethod.GET)
     @Transactional
     @ResponseBody
-    ResponseEntity<PagedResources<${modelClassName}>> searchBy${method.name?cap_first}(@PathVariable("${method.name}") ${method.type} ${method.name}, Pageable pageable, PagedResourcesAssembler assembler){
-        Page<${modelClassName}> results = ${repositoryClassName?uncap_first}.findBy${method.name?cap_first}(${method.name}, pageable);
+    ResponseEntity<PagedResources<${modelClassName}>> searchBy${mySearchTemplate.name?cap_first}(@PathVariable("${mySearchTemplate.name}") ${mySearchTemplate.type} ${mySearchTemplate.name}, Pageable pageable, PagedResourcesAssembler assembler){
+        Page<${modelClassName}> results = ${repositoryClassName?uncap_first}.findBy${mySearchTemplate.name?cap_first}(${mySearchTemplate.name}, pageable);
         return new ResponseEntity<PagedResources<${modelClassName}>>(assembler.toResources(results), HttpStatus.OK);
     }
             </#if>
